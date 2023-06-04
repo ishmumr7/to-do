@@ -8,10 +8,27 @@ const Register = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+    const register = (e) => {
+        e.preventDefault();
+
+        fetch(`http://localhost:5000/register`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application.json",
+            },
+            body: JSON.stringify({
+                name,
+                username,
+                email,
+                password,
+            }),
+        });
+    };
+
     return (
         <div className="form-container">
             <h2>Register</h2>
-            <Form>
+            <Form onSubmit={register}>
                 <Row className="mb-3">
                     <Col>
                         <Form.Control
