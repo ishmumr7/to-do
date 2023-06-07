@@ -35,7 +35,7 @@ const Navigation = () => {
                             </NavDropdown>
                         </Nav>
                         <Nav>
-                            <Nav.Link href="#deets">More deets</Nav.Link>
+                            <Nav.Link href="/login">Login</Nav.Link>
                             <Nav.Link eventKey={2} href="/register">
                                 Register
                             </Nav.Link>
