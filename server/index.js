@@ -4,7 +4,6 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv").config();
 
-
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -27,6 +26,13 @@ async function run() {
     try {
         await client.connect();
         const usersCollection = client.db("to-do").collection("users");
+
+        //GET API
+        app.get("/users", async (req, res) => {
+            const cursor = usersCollection.find({});
+            const users = await cursor.toArray();
+            res.send(users);
+        });
 
         //POST API
         app.post("/register", async (req, res) => {
