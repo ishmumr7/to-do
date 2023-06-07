@@ -1,56 +1,63 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
+import alertify from "alertifyjs";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import "./Register.css";
 
 const Register = () => {
-    const [name, setName] = useState("");
-    const [username, setUsername] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const nameRef = useRef();
+    const usernameRef = useRef();
+    const emailRef = useRef();
+    const passwordRef = useRef();
 
-    const register = (e) => {
-        e.preventDefault();
-
-        fetch(`http://localhost:5000/register`, {
+    const handleRegistration = (e) => {
+        const name = nameRef.current.value;
+        const username = usernameRef.current.value;
+        const email = emailRef.current.value;
+        const password = passwordRef.current.value;
+        
+        const newUser = {name, username, email, password};
+        fetch("http://localhost:5000/register", {
             method: 'POST',
             headers: {
-                "Content-Type": "application.json",
+                "content-type": "application/json",
             },
-            body: JSON.stringify({
-                name,
-                username,
-                email,
-                password,
-            }),
-        });
+            body: JSON.stringify(newUser),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                alert("Registered!");
+                e.target.reset();
+            });
+
+        e.preventDefault();
     };
 
     return (
         <div className="form-container">
             <h2>Register</h2>
-            <Form onSubmit={register}>
+            <Form onSubmit={handleRegistration}>
                 <Row className="mb-3">
                     <Col>
                         <Form.Control
-                            onChange={(e) => setName(e.target.value)}
+                            ref={nameRef}
                             placeholder="Name"
                         />
                     </Col>
                     <Col>
                         <Form.Control
-                            onChange={(e) => setUsername(e.target.value)}
+                            ref={usernameRef}
                             placeholder="Username"
                         />
                     </Col>
                 </Row>
                 <Form.Control
-                    onChange={(e) => setEmail(e.target.value)}
+                    ref={emailRef}
                     className="mb-3"
                     type="email"
                     placeholder="Email"
                 />
                 <Form.Control
-                    onChange={(e) => setPassword(e.target.value)}
+                    ref={passwordRef}
                     className="mb-3"
                     type="password"
                     placeholder="Password"
